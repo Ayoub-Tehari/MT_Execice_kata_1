@@ -16,7 +16,13 @@ class VerificateurPalindrome {
         return $newstr;
     }
     public function verifier ($input){
-        return $this::BONJOUR . PHP_EOL . $this->renverser($input) . PHP_EOL . $this::BIENDIT. PHP_EOL;
+        $resultat = $this::BONJOUR . PHP_EOL ;
+        $reversed = $this->renverser($input);
+        $resultat .= $reversed . PHP_EOL ;
+        if ($reversed == $input){
+            $resultat .= $this::BIENDIT. PHP_EOL;
+        }
+        return $resultat ;
     }
 
 }
