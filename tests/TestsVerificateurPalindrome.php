@@ -27,20 +27,19 @@ class TestsVerificateurPalindrome extends TestCase
 
     
     /*
-        QUAND on saisit un non palindrome 
-        ALORS celui-ci est renvoyé 
-        SANS « Bien dit » renvoyé ensuite
+        QUAND on saisit une chaîne 
+        ALORS « Au revoir » est envoyé en dernier
     */
-    public function testNonPalindromeNonBienDit () {
+    public function testAuRevoir () {
 
         $verificateur = new VerificateurPalindrome();
-        foreach(self::INPUTS["autres"] as $data){
+        foreach(self::INPUTS as $type){
+            foreach($type as $key => $data){
                 $resultat = $verificateur->verifier($data);
-                $res_len = strlen($resultat);
-                $correction = strlen($verificateur::BONJOUR . PHP_EOL);
-                $correction += strlen($data . PHP_EOL);
-                $this->assertEquals($res_len, $correction);
-            
+                $res_arr = explode(PHP_EOL, $resultat);
+                $correction = "Au revoir";
+                $this->assertEquals($res_arr[count($res_arr)-2], $correction);
+            }
         }
     }
     
