@@ -24,6 +24,21 @@ class TestsVerificateurPalindrome extends TestCase
             }
         }
     }
+
+    /*
+        QUAND on saisit un palindrome 
+        ALORS celui-ci est renvoyé 
+        ET « Bien dit » est envoyé ensuite
+    */
+    public function testBienDit () {
+
+        $verificateur = new VerificateurPalindrome();
+        foreach(self::INPUTS["palindromes"] as  $data){
+            $resultat = $verificateur->verifier($data);
+            $correction = strrev($data) . PHP_EOL . "Bien dit" . PHP_EOL;
+            $this->assertEquals($resultat, $correction);
+        }
+    }
     
     
     
