@@ -11,7 +11,7 @@ class TestsVerificateurPalindrome extends TestCase
                     "autres" => array("test", "palindrome"));
     /*
         QUAND on saisit une chaine
-        ALORS celle-ci est renvoyée en miroir
+        ALORS "Bonjour" plus celle-ci est renvoyée en miroir
     */
     public function testMiroireDuneChaine () {
 
@@ -27,19 +27,20 @@ class TestsVerificateurPalindrome extends TestCase
 
     
     /*
-        QUAND on saisit une chaîne 
-        ALORS « Bonjour » est envoyé avant toute réponse
+        QUAND on saisit un non palindrome 
+        ALORS celui-ci est renvoyé 
+        SANS « Bien dit » renvoyé ensuite
     */
-    public function testBonjour () {
+    public function testNonPalindromeNonBienDit () {
 
         $verificateur = new VerificateurPalindrome();
-        foreach(self::INPUTS as $type){
-            foreach($type as $key => $data){
+        foreach(self::INPUTS["autres"] as $data){
                 $resultat = $verificateur->verifier($data);
-                $res_arr = explode(PHP_EOL, $resultat);
-                $correction = "Bonjour";
-                $this->assertEquals($res_arr[0], $correction);
-            }
+                $res_len = strlen($resultat);
+                $correction = strlen($verificateur::BONJOUR . PHP_EOL);
+                $correction += strlen($data . PHP_EOL);
+                $this->assertEquals($res_len, $correction);
+            
         }
     }
     
