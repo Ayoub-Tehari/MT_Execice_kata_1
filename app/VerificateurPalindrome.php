@@ -15,7 +15,7 @@ class VerificateurPalindrome {
         return $newstr;
     }
     public function verifier ($input){
-        return $this->renverser($input) . PHP_EOL . $this::BIENDIT. PHP_EOL;
+        return "Bonjour" . PHP_EOL . $this->renverser($input) . PHP_EOL . $this::BIENDIT. PHP_EOL;
     }
 
 }
