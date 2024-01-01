@@ -2,6 +2,7 @@
 namespace User\MtExeciceKata1;
 class VerificateurPalindrome {
     const BIENDIT = "Bien dit";
+    const BONJOUR = "Bonjour";
     public function renverser ($str) {
             
         if (strlen($str) <= 1) return $str;
@@ -15,7 +16,7 @@ class VerificateurPalindrome {
         return $newstr;
     }
     public function verifier ($input){
-        return "Bonjour" . PHP_EOL . $this->renverser($input) . PHP_EOL . $this::BIENDIT. PHP_EOL;
+        return $this::BONJOUR . PHP_EOL . $this->renverser($input) . PHP_EOL . $this::BIENDIT. PHP_EOL;
     }
 
 }
