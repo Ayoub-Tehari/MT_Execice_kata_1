@@ -88,4 +88,22 @@ class TestsVerificateurPalindrome extends TestCase
         $expressions = $langueInstance->getData();
         $this->assertEquals("Well said", $expressions->BienDit);
     }   
+    /*
+        QUAND on saisit un non palindrome 
+        ALORS celui-ci est renvoyé 
+        SANS « Bien dit » renvoyé ensuite
+    */
+    public function testNonPalindromeNonBienDit () {
+
+        $verificateur = new VerificateurPalindrome();
+        foreach(self::INPUTS["autres"] as $data){
+                $resultat = $verificateur->verifier($data);
+                $res_len = strlen($resultat);
+                $correction = strlen($verificateur::BONJOUR . PHP_EOL);
+                $correction += strlen($data . PHP_EOL);
+                $correction += strlen($verificateur::AUREVOIR . PHP_EOL);
+                $this->assertEquals($res_len, $correction);
+            
+        }
+    }
 }
