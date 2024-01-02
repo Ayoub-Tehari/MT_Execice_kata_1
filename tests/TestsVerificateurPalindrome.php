@@ -44,7 +44,48 @@ class TestsVerificateurPalindrome extends TestCase
             $res_arr = explode(PHP_EOL, $resultat);
             $correction = $expressions->BienDit;
             $this->assertEquals($correction, $res_arr[2]);
+            $this->assertEquals(strrev($data), $res_arr[1]);
         
         }
+    }   
+    /*
+        ETANT DONNE un utilisateur parlant la langue française
+        QUAND on entre un palindrome
+        ALORS il est renvoyé
+        ET le <bienDit> de cette langue est envoyé
+    */
+    public function testBienDit_fr (){
+
+        $langueInstance = Langue::getInstance();
+        
+        $langueInstance->setFile('fr.json');
+        $expressions = $langueInstance->getData();
+        $verificateur = new VerificateurPalindrome();
+        foreach(self::INPUTS['palindromes'] as $data){
+            $resultat = $verificateur->verifier($data);
+            $res_arr = explode(PHP_EOL, $resultat);
+            $correction = $expressions->BienDit;
+            $this->assertEquals($correction, $res_arr[2]);
+            $this->assertEquals(strrev($data), $res_arr[1]);
+        
+        }
+    }   
+    /*
+        ETANT DONNE un utilisateur parlant unea langue
+        QUAND l'expression renvoyée est conforme à la langue choisit
+    */
+    public function testBienDitDesLangues (){
+
+        $langueInstance = Langue::getInstance();
+        
+        $langueInstance->setFile('fr.json');
+        $expressions = $langueInstance->getData();
+        
+        $this->assertEquals("Bien dit", $expressions->BienDit);
+
+        
+        $langueInstance->setFile('en.json');
+        $expressions = $langueInstance->getData();
+        $this->assertEquals("Well said", $expressions->BienDit);
     }   
 }
