@@ -106,7 +106,7 @@ class TestsVerificateurPalindrome extends TestCase
                 $res_len = strlen($resultat);
                 $correction = strlen($expressions->Bonjour . PHP_EOL);
                 $correction += strlen($data . PHP_EOL);
-                $correction += strlen($verificateur::AUREVOIR . PHP_EOL);
+                $correction += strlen($expressions->AuRevoir . PHP_EOL);
                 $this->assertEquals($res_len, $correction);
             
         }
@@ -129,7 +129,7 @@ class TestsVerificateurPalindrome extends TestCase
                 $res_len = strlen($resultat);
                 $correction = strlen($expressions->Bonjour . PHP_EOL);
                 $correction += strlen($data . PHP_EOL);
-                $correction += strlen($verificateur::AUREVOIR . PHP_EOL);
+                $correction += strlen($expressions->AuRevoir . PHP_EOL);
                 $this->assertEquals($res_len, $correction);
             
         }
@@ -160,6 +160,35 @@ class TestsVerificateurPalindrome extends TestCase
                 $res_arr = explode(PHP_EOL, $resultat);
                 $correction = $expressions->Bonjour;
                 $this->assertEquals(strrev($data), $res_arr[1]);
+            }
+        }
+    } 
+    /*
+        ETANT DONNE un utilisateur parlant une langue
+        QUAND on saisit une chaîne
+        ALORS <auRevoir> dans cette langue est envoyé en dernier
+    */
+    
+    public function testAuRevoir (){
+
+        $langueInstance = Langue::getInstance();
+        
+        $verificateur = new VerificateurPalindrome();
+        foreach(self::INPUTS as $type){
+            foreach($type as $key => $data){
+                $langueInstance->setFile('fr.json');
+                $expressions = $langueInstance->getData();
+                $resultat = $verificateur->verifier($data);
+                $res_arr = explode(PHP_EOL, $resultat);
+                $correction = $expressions->AuRevoir;
+                $this->assertEquals($correction, $res_arr[count($res_arr)-2]);
+
+                $langueInstance->setFile('en.json');
+                $expressions = $langueInstance->getData();
+                $resultat = $verificateur->verifier($data);
+                $res_arr = explode(PHP_EOL, $resultat);
+                $correction = $expressions->AuRevoir;
+                $this->assertEquals($correction, $res_arr[count($res_arr)-2]);
             }
         }
     } 
