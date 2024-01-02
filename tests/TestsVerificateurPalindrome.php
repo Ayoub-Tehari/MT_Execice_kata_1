@@ -89,21 +89,78 @@ class TestsVerificateurPalindrome extends TestCase
         $this->assertEquals("Well said", $expressions->BienDit);
     }   
     /*
+        ETANT DONNE un utilisateur parlant la langue française
         QUAND on saisit un non palindrome 
         ALORS celui-ci est renvoyé 
         SANS « Bien dit » renvoyé ensuite
     */
-    public function testNonPalindromeNonBienDit () {
+    public function testNonPalindromeNonBienDit_fr () {
+        
+        $langueInstance = Langue::getInstance();
+        $langueInstance->setFile('fr.json');
+        $expressions = $langueInstance->getData();
 
         $verificateur = new VerificateurPalindrome();
         foreach(self::INPUTS["autres"] as $data){
                 $resultat = $verificateur->verifier($data);
                 $res_len = strlen($resultat);
-                $correction = strlen($verificateur::BONJOUR . PHP_EOL);
+                $correction = strlen($expressions->Bonjour . PHP_EOL);
                 $correction += strlen($data . PHP_EOL);
                 $correction += strlen($verificateur::AUREVOIR . PHP_EOL);
                 $this->assertEquals($res_len, $correction);
             
         }
     }
+    /*
+        ETANT DONNE un utilisateur parlant la langue anglaise
+        QUAND on saisit un non palindrome 
+        ALORS celui-ci est renvoyé 
+        SANS « Bien dit » renvoyé ensuite
+    */
+    public function testNonPalindromeNonBienDit_en () {
+        
+        $langueInstance = Langue::getInstance();
+        $langueInstance->setFile('en.json');
+        $expressions = $langueInstance->getData();
+
+        $verificateur = new VerificateurPalindrome();
+        foreach(self::INPUTS["autres"] as $data){
+                $resultat = $verificateur->verifier($data);
+                $res_len = strlen($resultat);
+                $correction = strlen($expressions->Bonjour . PHP_EOL);
+                $correction += strlen($data . PHP_EOL);
+                $correction += strlen($verificateur::AUREVOIR . PHP_EOL);
+                $this->assertEquals($res_len, $correction);
+            
+        }
+    }
+    
+    /*
+        ETANT DONNE un utilisateur parlant une langue
+        QUAND on saisit une chaîne
+        ALORS <bonjour> de cette langue est envoyé avant tout
+    */
+    public function testBonjour (){
+
+        $langueInstance = Langue::getInstance();
+        
+        $verificateur = new VerificateurPalindrome();
+        foreach(self::INPUTS as $type){
+            foreach($type as $key => $data){
+                $langueInstance->setFile('fr.json');
+                $expressions = $langueInstance->getData();
+                $resultat = $verificateur->verifier($data);
+                $res_arr = explode(PHP_EOL, $resultat);
+                $correction = $expressions->Bonjour;
+                $this->assertEquals($correction, $res_arr[0]);
+
+                $langueInstance->setFile('fr.json');
+                $expressions = $langueInstance->getData();
+                $resultat = $verificateur->verifier($data);
+                $res_arr = explode(PHP_EOL, $resultat);
+                $correction = $expressions->Bonjour;
+                $this->assertEquals(strrev($data), $res_arr[1]);
+            }
+        }
+    } 
 }

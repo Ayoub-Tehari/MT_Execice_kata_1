@@ -3,7 +3,6 @@ namespace User\MtExeciceKata1;
 use User\MtExeciceKata1\langues\Langue;
 class VerificateurPalindrome {
     const BIENDIT = "Bien dit";
-    const BONJOUR = "Bonjour";
     const AUREVOIR = "Au revoir";
     
     public function renverser ($str) {
@@ -23,7 +22,7 @@ class VerificateurPalindrome {
         $langueInstance = Langue::getInstance();
         
         $expressions = $langueInstance->getData();
-        $resultat = $this::BONJOUR . PHP_EOL ;
+        $resultat = $expressions->Bonjour . PHP_EOL ;
         $reversed = $this->renverser($input);
         $resultat .= $reversed . PHP_EOL ;
         if ($reversed == $input){
