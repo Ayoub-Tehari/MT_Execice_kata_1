@@ -1,5 +1,6 @@
 <?php
 namespace User\MtExeciceKata1;
+use User\MtExeciceKata1\langues\Langue;
 class VerificateurPalindrome {
     const BIENDIT = "Bien dit";
     const BONJOUR = "Bonjour";
@@ -18,11 +19,15 @@ class VerificateurPalindrome {
         return $newstr;
     }
     public function verifier ($input){
+        
+        $langueInstance = Langue::getInstance();
+        
+        $expressions = $langueInstance->getData();
         $resultat = $this::BONJOUR . PHP_EOL ;
         $reversed = $this->renverser($input);
         $resultat .= $reversed . PHP_EOL ;
         if ($reversed == $input){
-            $resultat .= $this::BIENDIT. PHP_EOL;
+            $resultat .= $expressions->BienDit . PHP_EOL;
         }
         $resultat .= $this::AUREVOIR. PHP_EOL;
         return $resultat ;

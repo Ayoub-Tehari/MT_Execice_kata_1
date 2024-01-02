@@ -2,6 +2,7 @@
 
 namespace User\MtExeciceKata1;
 use PHPUnit\Framework\TestCase;
+use User\MtExeciceKata1\langues\Langue;
 class TestsVerificateurPalindrome extends TestCase
 {
     //inputs
@@ -25,22 +26,25 @@ class TestsVerificateurPalindrome extends TestCase
         }
     }
 
-    
     /*
-        QUAND on saisit une chaîne 
-        ALORS « Au revoir » est envoyé en dernier
+        ETANT DONNE un utilisateur parlant la langue anglaise
+        QUAND on entre un palindrome
+        ALORS il est renvoyé
+        ET le <bienDit> de cette langue est envoyé
     */
-    public function testAuRevoir () {
+    public function testBienDit_en (){
 
+        $langueInstance = Langue::getInstance();
+        
+        $langueInstance->setFile('en.json');
+        $expressions = $langueInstance->getData();
         $verificateur = new VerificateurPalindrome();
-        foreach(self::INPUTS as $type){
-            foreach($type as $key => $data){
-                $resultat = $verificateur->verifier($data);
-                $res_arr = explode(PHP_EOL, $resultat);
-                $correction = "Au revoir";
-                $this->assertEquals($res_arr[count($res_arr)-2], $correction);
-            }
+        foreach(self::INPUTS['palindromes'] as $data){
+            $resultat = $verificateur->verifier($data);
+            $res_arr = explode(PHP_EOL, $resultat);
+            $correction = $expressions->BienDit;
+            $this->assertEquals($correction, $res_arr[2]);
+        
         }
-    }
-    
+    }   
 }

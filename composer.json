@@ -2,7 +2,8 @@
     "name": "user/mt_execice_kata_1",
     "autoload": {
         "psr-4": {
-            "User\\MtExeciceKata1\\": "app/"
+            "User\\MtExeciceKata1\\": "app/",
+            "User\\MtExeciceKata1\\langues": "app/langues"
         }
     },
     "authors": [
