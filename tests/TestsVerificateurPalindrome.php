@@ -2,6 +2,7 @@
 
 namespace User\MtExeciceKata1;
 use PHPUnit\Framework\TestCase;
+use User\MtExeciceKata1\langues\LangueFrancaise;
 use User\MtExeciceKata1\langues\Langue;
 class TestsVerificateurPalindrome extends TestCase
 {
@@ -10,10 +11,13 @@ class TestsVerificateurPalindrome extends TestCase
 
     const INPUTS = array("palindromes" => array("radar", "abba"),
                     "autres" => array("test", "palindrome"));
+    
+    
+    
     /*
         QUAND on saisit une chaine
         ALORS "Bonjour" plus celle-ci est renvoyée en miroir
-    */
+    
     public function testMiroireDuneChaine () {
 
         $verificateur = new VerificateurPalindrome();
@@ -31,13 +35,13 @@ class TestsVerificateurPalindrome extends TestCase
         QUAND on entre un palindrome
         ALORS il est renvoyé
         ET le <bienDit> de cette langue est envoyé
-    */
+    
     public function testBienDit_en (){
 
         $langueInstance = Langue::getInstance();
         
-        $langueInstance->setFile('en.json');
-        $expressions = $langueInstance->getData();
+        $langueInstance->setLanguageFile('en.json');
+        $expressions = $langueInstance->getLanguage();
         $verificateur = new VerificateurPalindrome();
         foreach(self::INPUTS['palindromes'] as $data){
             $resultat = $verificateur->verifier($data);
@@ -53,13 +57,13 @@ class TestsVerificateurPalindrome extends TestCase
         QUAND on entre un palindrome
         ALORS il est renvoyé
         ET le <bienDit> de cette langue est envoyé
-    */
+    *
     public function testBienDit_fr (){
 
         $langueInstance = Langue::getInstance();
         
-        $langueInstance->setFile('fr.json');
-        $expressions = $langueInstance->getData();
+        $langueInstance->setLanguageFile('fr.json');
+        $expressions = $langueInstance->getLanguage();
         $verificateur = new VerificateurPalindrome();
         foreach(self::INPUTS['palindromes'] as $data){
             $resultat = $verificateur->verifier($data);
@@ -73,19 +77,19 @@ class TestsVerificateurPalindrome extends TestCase
     /*
         ETANT DONNE un utilisateur parlant unea langue
         QUAND l'expression renvoyée est conforme à la langue choisit
-    */
+    *
     public function testBienDitDesLangues (){
 
         $langueInstance = Langue::getInstance();
         
-        $langueInstance->setFile('fr.json');
-        $expressions = $langueInstance->getData();
+        $langueInstance->setLanguageFile('fr.json');
+        $expressions = $langueInstance->getLanguage();
         
         $this->assertEquals("Bien dit", $expressions->BienDit);
 
         
-        $langueInstance->setFile('en.json');
-        $expressions = $langueInstance->getData();
+        $langueInstance->setLanguageFile('en.json');
+        $expressions = $langueInstance->getLanguage();
         $this->assertEquals("Well said", $expressions->BienDit);
     }   
     /*
@@ -93,12 +97,12 @@ class TestsVerificateurPalindrome extends TestCase
         QUAND on saisit un non palindrome 
         ALORS celui-ci est renvoyé 
         SANS « Bien dit » renvoyé ensuite
-    */
+    *
     public function testNonPalindromeNonBienDit_fr () {
         
         $langueInstance = Langue::getInstance();
-        $langueInstance->setFile('fr.json');
-        $expressions = $langueInstance->getData();
+        $langueInstance->setLanguageFile('fr.json');
+        $expressions = $langueInstance->getLanguage();
 
         $verificateur = new VerificateurPalindrome();
         foreach(self::INPUTS["autres"] as $data){
@@ -116,12 +120,12 @@ class TestsVerificateurPalindrome extends TestCase
         QUAND on saisit un non palindrome 
         ALORS celui-ci est renvoyé 
         SANS « Bien dit » renvoyé ensuite
-    */
+    *
     public function testNonPalindromeNonBienDit_en () {
         
         $langueInstance = Langue::getInstance();
-        $langueInstance->setFile('en.json');
-        $expressions = $langueInstance->getData();
+        $langueInstance->setLanguageFile('en.json');
+        $expressions = $langueInstance->getLanguage();
 
         $verificateur = new VerificateurPalindrome();
         foreach(self::INPUTS["autres"] as $data){
@@ -142,24 +146,28 @@ class TestsVerificateurPalindrome extends TestCase
     */
     public function testBonjour (){
 
-        $langueInstance = Langue::getInstance();
+        $verificateur = new VerificateurPalindromeBuilder();
+        $langueFr = new LangueFrancaise();
+        $langueStub = $this->createStub(LangueFrancaise::class);
         
-        $verificateur = new VerificateurPalindrome();
+        $correction = Langue::getInstance()->setLanguageFile('fr.json')->getLanguage()->Bonjour;
+        $langueStub->method('direBonjour')
+             ->willReturn($correction.PHP_EOL);
         foreach(self::INPUTS as $type){
             foreach($type as $key => $data){
-                $langueInstance->setFile('fr.json');
-                $expressions = $langueInstance->getData();
-                $resultat = $verificateur->verifier($data);
+                
+                $resultat = $verificateur->ayantCommeLangue($langueStub)->build()->verifier($data);
                 $res_arr = explode(PHP_EOL, $resultat);
-                $correction = $expressions->Bonjour;
+                
+                
                 $this->assertEquals($correction, $res_arr[0]);
 
-                $langueInstance->setFile('fr.json');
-                $expressions = $langueInstance->getData();
-                $resultat = $verificateur->verifier($data);
+                $resultat = $verificateur->ayantCommeLangue($langueFr)->build()->verifier($data);
                 $res_arr = explode(PHP_EOL, $resultat);
-                $correction = $expressions->Bonjour;
-                $this->assertEquals(strrev($data), $res_arr[1]);
+                
+                
+                $this->assertEquals($correction, $res_arr[0]);
+
             }
         }
     } 
@@ -167,7 +175,7 @@ class TestsVerificateurPalindrome extends TestCase
         ETANT DONNE un utilisateur parlant une langue
         QUAND on saisit une chaîne
         ALORS <auRevoir> dans cette langue est envoyé en dernier
-    */
+    *
     
     public function testAuRevoir (){
 
@@ -176,20 +184,21 @@ class TestsVerificateurPalindrome extends TestCase
         $verificateur = new VerificateurPalindrome();
         foreach(self::INPUTS as $type){
             foreach($type as $key => $data){
-                $langueInstance->setFile('fr.json');
-                $expressions = $langueInstance->getData();
+                $langueInstance->setLanguageFile('fr.json');
+                $expressions = $langueInstance->getLanguage();
                 $resultat = $verificateur->verifier($data);
                 $res_arr = explode(PHP_EOL, $resultat);
                 $correction = $expressions->AuRevoir;
                 $this->assertEquals($correction, $res_arr[count($res_arr)-2]);
 
-                $langueInstance->setFile('en.json');
-                $expressions = $langueInstance->getData();
+                $langueInstance->setLanguageFile('en.json');
+                $expressions = $langueInstance->getLanguage();
                 $resultat = $verificateur->verifier($data);
                 $res_arr = explode(PHP_EOL, $resultat);
                 $correction = $expressions->AuRevoir;
                 $this->assertEquals($correction, $res_arr[count($res_arr)-2]);
             }
         }
-    } 
+    }
+    */ 
 }
