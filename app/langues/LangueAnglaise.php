@@ -3,7 +3,7 @@
 namespace User\MtExeciceKata1\langues;
 class LangueAnglaise extends LangueTemplate {
     public function __construct (){
-        super();
+        parent::__construct();
         $this->setLanguageFile("en.json");
     }
 }

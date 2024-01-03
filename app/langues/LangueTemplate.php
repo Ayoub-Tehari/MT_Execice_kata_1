@@ -13,6 +13,9 @@ abstract class LangueTemplate {
     public function direAurevoir () {
         return $this->data->AuRevoir . PHP_EOL;
     }
+    public function direBienDit () {
+        return $this->data->BienDit . PHP_EOL;
+    }
     
     public function setLanguageFile($json_file)
     {

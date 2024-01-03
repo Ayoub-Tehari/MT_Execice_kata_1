@@ -18,16 +18,14 @@ class VerificateurPalindrome {
     
         return $newstr;
     }
-    private function getBody ($input){
-        
-        $expressions = Langue::getInstance()->getLanguage();
+    public function getBody ($input){
         
         $reversed = $this->renverser($input);
         
         $resultat = $reversed . PHP_EOL;
 
         if ($reversed == $input){
-            $resultat .= $expressions->BienDit . PHP_EOL;
+            $resultat .= $this->langue->direBienDit() . PHP_EOL;
         }
         return $resultat;
     }
@@ -35,27 +33,10 @@ class VerificateurPalindrome {
         
         $resultat = $this->langue->direBonjour() ;
         $resultat .= $this->getBody($input) ;
-        $resultat .= $this->direAuRevoir() ;
+        $resultat .= $this->langue->direAuRevoir() ;
 
         return $resultat ;
     }
     
-    private function direBonjour(){
-        
-        $expressions = Langue::getInstance()->getLanguage();
-        $resultat = $expressions->Bonjour . PHP_EOL ;
-
-        return $resultat;
-
-    }
-
-    private function direAuRevoir(){
-
-        $expressions = Langue::getInstance()->getLanguage();
-        $resultat = $expressions->AuRevoir . PHP_EOL ;
-
-        return $resultat;
-
-    }
 
 }
