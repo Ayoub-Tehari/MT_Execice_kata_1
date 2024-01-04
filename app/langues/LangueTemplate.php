@@ -7,8 +7,28 @@ abstract class LangueTemplate {
     public function __construct() {
         
     }
-    public function saluer () {
-        return $this->data->Bonjour . PHP_EOL;
+    public function saluer ($moment) {
+        switch ($moment->toString()) {
+            case "Matin":
+                $salutation = $this->data->Salutation->Bonjour_am;
+                break;
+            case "ApresMidi":
+                $salutation = $this->data->Salutation->Bonjour_pm;
+                break;
+            case "Soir":
+                $salutation = $this->data->Salutation->Bonjour_soir;
+                break;
+            case "Soiree":
+                $salutation = $this->data->Salutation->Bonjour_nuit;
+                break;
+            default :
+                $salutation = $this->data->Salutation->Bonjour_am;
+                // throw new \Exception('Le moment de la journée n\'est pas reconnu ! '
+                //                     . PHP_EOL 
+                //                     . "<" . $moment->toString() . ">"
+                //                     . PHP_EOL );
+        }
+        return $salutation . PHP_EOL;
     }
     public function acquiter () {
         return $this->data->AuRevoir . PHP_EOL;

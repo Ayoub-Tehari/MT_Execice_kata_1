@@ -2,7 +2,11 @@
 namespace User\MtExeciceKata1\temps;
 abstract class MomentDeLaJournee {
     private $representation;
-    const MATIN = "matin";
+    const MATIN = "Matin";
+    const APRESMIDI = "ApresMidi";
+    const SOIR = "Soir";
+    const SOIREE = "Soiree";
+    const INCONNU = "Inconnu";
     public function __construct ($moment){
         $this->representation = $moment;
     }

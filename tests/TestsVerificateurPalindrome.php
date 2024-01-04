@@ -6,6 +6,10 @@ use User\MtExeciceKata1\langues\LangueFrancaise;
 use User\MtExeciceKata1\langues\LangueAnglaise;
 use User\MtExeciceKata1\langues\Langue;
 use User\MtExeciceKata1\temps\Matin;
+use User\MtExeciceKata1\temps\ApresMidi;
+use User\MtExeciceKata1\temps\Soir;
+use User\MtExeciceKata1\temps\Soiree;
+use User\MtExeciceKata1\temps\MomentInconnu;
 class TestsVerificateurPalindrome extends TestCase
 {
     //inputs
@@ -13,7 +17,12 @@ class TestsVerificateurPalindrome extends TestCase
 
     const INPUTS = array("palindromes" => array("radar", "abba"),
                     "autres" => array("test", "palindrome"));
-    
+    const MOMENTS = array(
+        "Bonjour_am",
+        "Bonjour_pm",
+        "Bonjour_soir",
+        "Bonjour_nuit"
+    );
     
     
     /*
@@ -155,29 +164,50 @@ class TestsVerificateurPalindrome extends TestCase
 
         $verificateur = new VerificateurPalindromeBuilder();
         $langueFr = new LangueFrancaise();
-        $langueStub = $this->createStub(LangueFrancaise::class);
-        $moment = new Matin ();
-        $correction = Langue::getInstance()->setLanguageFile('fr.json')->getLanguage()->Bonjour;
-        $langueStub->method('saluer')
-             ->willReturn($correction.PHP_EOL);
-        foreach(self::INPUTS as $type){
-            foreach($type as $key => $data){
-                
-                $resultat = $verificateur
-                                ->ayantCommeLangue($langueStub)
-                                ->AyantPourMomentDeLaJournee($moment)
-                                ->build()->verifier($data);
-                $res_arr = explode(PHP_EOL, $resultat);
-                
-                
-                $this->assertEquals($correction, $res_arr[0]);
+        foreach(self::MOMENTS as $moment_type){
+            switch ($moment_type) {
+                case "Bonjour_am":
+                    $moment = new Matin ();
+                    break;
+                case "Bonjour_pm":
+                    $moment = new ApresMidi ();
+                    break;
+                case "Bonjour_soir":
+                    $moment = new Soir ();
+                    break;
+                case "Bonjour_nuit":
+                    $moment = new Soiree ();
+                    break;
+                default :
+                    $moment = new MomentInconnu ();
+            }   
+            $langueStub = $this->createStub(LangueFrancaise::class);
+            
+            $correction = Langue::getInstance()->setLanguageFile('fr.json')->getLanguage()->Salutation->$moment_type;
+            $langueStub->method('saluer')
+                ->willReturn($correction.PHP_EOL);
+            foreach(self::INPUTS as $type){
+                foreach($type as $key => $data){
+                    
+                    $resultat = $verificateur
+                                    ->ayantCommeLangue($langueStub)
+                                    ->AyantPourMomentDeLaJournee($moment)
+                                    ->build()->verifier($data);
+                    $res_arr = explode(PHP_EOL, $resultat);
+                    
+                    
+                    $this->assertEquals($correction, $res_arr[0]);
 
-                $resultat = $verificateur->ayantCommeLangue($langueFr)->build()->verifier($data);
-                $res_arr = explode(PHP_EOL, $resultat);
-                
-                
-                $this->assertEquals($correction, $res_arr[0]);
+                    $resultat = $verificateur
+                                    ->ayantCommeLangue($langueFr)
+                                    ->AyantPourMomentDeLaJournee($moment)
+                                    ->build()->verifier($data);
+                    $res_arr = explode(PHP_EOL, $resultat);
+                    
+                    
+                    $this->assertEquals($correction, $res_arr[0]);
 
+                }
             }
         }
     } 

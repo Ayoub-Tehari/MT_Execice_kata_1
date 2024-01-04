@@ -2,9 +2,13 @@
 namespace User\MtExeciceKata1;
 use User\MtExeciceKata1\langues\Langue;
 class VerificateurPalindrome {
+
+    private $moment;
     private $langue;
-    public function __construct ($langue) {
+
+    public function __construct ($langue, $moment) {
         $this->langue = $langue;
+        $this->moment = $moment;
     }
     public function renverser ($str) {
             
@@ -25,13 +29,13 @@ class VerificateurPalindrome {
         $resultat = $reversed . PHP_EOL;
 
         if ($reversed == $input){
-            $resultat .= $this->langue->feliciter() . PHP_EOL;
+            $resultat .= $this->langue->feliciter();
         }
         return $resultat;
     }
     public function verifier ($input){
         
-        $resultat = $this->langue->saluer() ;
+        $resultat = $this->langue->saluer($this->moment) ;
         $resultat .= $this->getBody($input) ;
         $resultat .= $this->langue->acquiter() ;
 
