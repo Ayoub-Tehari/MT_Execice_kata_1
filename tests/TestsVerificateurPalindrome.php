@@ -1,16 +1,20 @@
 <?php
 
-namespace User\MtExeciceKata1;
+namespace User\MtExeciceKata1\Tests;
 use PHPUnit\Framework\TestCase;
-use User\MtExeciceKata1\langues\LangueFrancaise;
-use User\MtExeciceKata1\langues\LangueAnglaise;
-use User\MtExeciceKata1\langues\Langue;
-use User\MtExeciceKata1\temps\Matin;
-use User\MtExeciceKata1\temps\ApresMidi;
-use User\MtExeciceKata1\temps\Soir;
-use User\MtExeciceKata1\temps\Soiree;
-use User\MtExeciceKata1\temps\MomentInconnu;
-use User\MtExeciceKata1\temps\MomentDeLaJournee;
+
+use User\MtExeciceKata1\Tests\Utilities\VerificateurPalindromeBuilder;
+use User\MtExeciceKata1\App\Domaine\Langues\LangueFrancaise;
+use User\MtExeciceKata1\App\Domaine\Langues\LangueAnglaise;
+use User\MtExeciceKata1\App\Domaine\Langues\Langue;
+use User\MtExeciceKata1\App\Domaine\Temps\Matin;
+use User\MtExeciceKata1\App\Domaine\Temps\ApresMidi;
+use User\MtExeciceKata1\App\Domaine\Temps\Soir;
+use User\MtExeciceKata1\App\Domaine\Temps\Soiree;
+use User\MtExeciceKata1\App\Domaine\Temps\MomentInconnu;
+use User\MtExeciceKata1\App\Domaine\Temps\MomentDeLaJournee;
+use User\MtExeciceKata1\Tests\Matchers\AyantPourPremiereLigne;
+use User\MtExeciceKata1\Tests\Matchers\AyantPourDerniereLigne;
 
 class TestsVerificateurPalindrome extends TestCase
 {
@@ -182,24 +186,23 @@ class TestsVerificateurPalindrome extends TestCase
             foreach(self::INPUTS as $type){
                 foreach($type as $key => $data){
                     
-                    $resultat = $verificateur
+                    $contrainte = new AyantPourPremiereLigne(
+                        $verificateur
                                     ->ayantCommeLangue($langueStub)
                                     ->AyantPourMomentDeLaJournee($moment)
-                                    ->build()->verifier($data);
-                    $res_arr = explode(PHP_EOL, $resultat);
+                                    ->build()->verifier($data)
+                    );
                     
-                    
-                    $this->assertEquals($correction, $res_arr[0]);
+                    $this->assertThat($correction, $contrainte);
 
-                    $resultat = $verificateur
+                    $contrainte = new AyantPourPremiereLigne(
+                        $verificateur
                                     ->ayantCommeLangue($langueFr)
                                     ->AyantPourMomentDeLaJournee($moment)
-                                    ->build()->verifier($data);
-                    $res_arr = explode(PHP_EOL, $resultat);
+                                    ->build()->verifier($data)
+                    );
                     
-                    
-                    $this->assertEquals($correction, $res_arr[0]);
-
+                    $this->assertThat($correction, $contrainte);
                 }
             }
         }
@@ -216,32 +219,18 @@ class TestsVerificateurPalindrome extends TestCase
         $langueFr = new LangueFrancaise();
         foreach(self::MOMENTS_AUREVOIR as $moment_type){
             $moment = MomentDeLaJournee::creerUnMomentDeLaJournee($moment_type) ;
-            $langueStub = $this->createStub(LangueFrancaise::class);
             
             $correction = Langue::getInstance()->setLanguageFile('fr.json')->getLanguage()->AuRevoir->$moment_type;
-            $langueStub->method('acquiter')
-                ->willReturn($correction.PHP_EOL);
             foreach(self::INPUTS as $type){
                 foreach($type as $key => $data){
-                    
-                    $resultat = $verificateur
-                                    ->ayantCommeLangue($langueStub)
-                                    ->AyantPourMomentDeLaJournee($moment)
-                                    ->build()->verifier($data);
-                    $res_arr = explode(PHP_EOL, $resultat);
-                    
-                    
-                    $this->assertEquals($correction, $res_arr[count($res_arr)-2]);
-
-                    $resultat = $verificateur
+                    $contrainte = new AyantPourDerniereLigne(
+                        $verificateur
                                     ->ayantCommeLangue($langueFr)
                                     ->AyantPourMomentDeLaJournee($moment)
-                                    ->build()->verifier($data);
-                    $res_arr = explode(PHP_EOL, $resultat);
+                                    ->build()->verifier($data)
+                    );
                     
-                    
-                    $this->assertEquals($correction, $res_arr[count($res_arr)-2]);
-
+                    $this->assertThat($correction, $contrainte);
                 }
             }
         }

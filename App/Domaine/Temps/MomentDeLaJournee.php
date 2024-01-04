@@ -1,5 +1,5 @@
 <?php
-namespace User\MtExeciceKata1\temps;
+namespace User\MtExeciceKata1\App\Domaine\Temps;
 abstract class MomentDeLaJournee {
     private $representation;
     const MATIN = "Matin";

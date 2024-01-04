@@ -1,6 +1,6 @@
 <?php
 
-namespace User\MtExeciceKata1\langues;
+namespace User\MtExeciceKata1\App\Domaine\Langues;
 abstract class LangueTemplate {
     private $file; 
     private $data;    

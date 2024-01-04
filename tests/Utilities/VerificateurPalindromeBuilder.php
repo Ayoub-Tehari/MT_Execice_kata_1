@@ -1,8 +1,9 @@
 <?php
-namespace User\MtExeciceKata1;
-use User\MtExeciceKata1\langues\Langue;
-use User\MtExeciceKata1\langues\LangueFrancaise;
-use User\MtExeciceKata1\temps\MomentInconnu;
+namespace User\MtExeciceKata1\Tests\Utilities;
+use User\MtExeciceKata1\App\Domaine\VerificateurPalindrome;
+use User\MtExeciceKata1\App\Domaine\Langues\Langue;
+use User\MtExeciceKata1\App\Domaine\Langues\LangueFrancaise;
+use User\MtExeciceKata1\App\Domaine\Temps\MomentInconnu;
 class VerificateurPalindromeBuilder {
 
     private $langue;

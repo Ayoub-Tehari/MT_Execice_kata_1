@@ -1,6 +1,6 @@
 <?php
-namespace User\MtExeciceKata1;
-use User\MtExeciceKata1\langues\Langue;
+namespace User\MtExeciceKata1\App\Domaine;
+use User\MtExeciceKata1\App\Domaine\Langues\Langue;
 class VerificateurPalindrome {
 
     private $moment;
