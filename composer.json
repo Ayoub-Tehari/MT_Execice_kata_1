@@ -3,7 +3,8 @@
     "autoload": {
         "psr-4": {
             "User\\MtExeciceKata1\\": "app/",
-            "User\\MtExeciceKata1\\langues": "app/langues"
+            "User\\MtExeciceKata1\\langues": "app/langues",
+            "User\\MtExeciceKata1\\temps": "app/temps"
         }
     },
     "authors": [

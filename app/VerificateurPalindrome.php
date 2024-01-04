@@ -25,15 +25,15 @@ class VerificateurPalindrome {
         $resultat = $reversed . PHP_EOL;
 
         if ($reversed == $input){
-            $resultat .= $this->langue->direBienDit() . PHP_EOL;
+            $resultat .= $this->langue->feliciter() . PHP_EOL;
         }
         return $resultat;
     }
     public function verifier ($input){
         
-        $resultat = $this->langue->direBonjour() ;
+        $resultat = $this->langue->saluer() ;
         $resultat .= $this->getBody($input) ;
-        $resultat .= $this->langue->direAuRevoir() ;
+        $resultat .= $this->langue->acquiter() ;
 
         return $resultat ;
     }

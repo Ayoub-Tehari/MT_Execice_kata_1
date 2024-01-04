@@ -18,6 +18,10 @@ class VerificateurPalindromeBuilder {
         $this->langue = $langue;
         return $this;
     }
+    public function AyantPourMomentDeLaJournee ($moment){
+        
+        return $this;
+    }
 
     public function build() {
         return new VerificateurPalindrome($this->langue);

@@ -7,13 +7,13 @@ abstract class LangueTemplate {
     public function __construct() {
         
     }
-    public function direBonjour () {
+    public function saluer () {
         return $this->data->Bonjour . PHP_EOL;
     }
-    public function direAurevoir () {
+    public function acquiter () {
         return $this->data->AuRevoir . PHP_EOL;
     }
-    public function direBienDit () {
+    public function feliciter () {
         return $this->data->BienDit . PHP_EOL;
     }
     

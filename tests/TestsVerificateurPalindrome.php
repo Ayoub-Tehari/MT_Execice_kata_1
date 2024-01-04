@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 use User\MtExeciceKata1\langues\LangueFrancaise;
 use User\MtExeciceKata1\langues\LangueAnglaise;
 use User\MtExeciceKata1\langues\Langue;
+use User\MtExeciceKata1\temps\Matin;
 class TestsVerificateurPalindrome extends TestCase
 {
     //inputs
@@ -83,11 +84,11 @@ class TestsVerificateurPalindrome extends TestCase
 
         $langue = new LangueFrancaise ();
         
-        $this->assertEquals("Bien dit".PHP_EOL, $langue->direBienDit());
+        $this->assertEquals("Bien dit".PHP_EOL, $langue->feliciter());
 
         $langue = new LangueAnglaise ();
         
-        $this->assertEquals("Well said".PHP_EOL, $langue->direBienDit());
+        $this->assertEquals("Well said".PHP_EOL, $langue->feliciter());
   
     }   
     /*
@@ -105,7 +106,7 @@ class TestsVerificateurPalindrome extends TestCase
         
         foreach(self::INPUTS["autres"] as $data){
                 $languageMock = $this->createMock(LangueFrancaise::class);
-                $languageMock->expects($this->never())->method('direBienDit')->willReturn($correction.PHP_EOL);
+                $languageMock->expects($this->never())->method('feliciter')->willReturn($correction.PHP_EOL);
                 $resultat = $verificateur->ayantCommeLangue($languageMock)->build()->getBody($data);
                 $res_arr = explode(PHP_EOL, $resultat);
                 
@@ -132,7 +133,7 @@ class TestsVerificateurPalindrome extends TestCase
         
         foreach(self::INPUTS["palindromes"] as $data){
                 $languageMock = $this->createMock(LangueFrancaise::class);
-                $languageMock->expects($this->once())->method('direBienDit')->willReturn($correction.PHP_EOL);
+                $languageMock->expects($this->once())->method('feliciter')->willReturn($correction.PHP_EOL);
                 $resultat = $verificateur->ayantCommeLangue($languageMock)->build()->getBody($data);
                 $res_arr = explode(PHP_EOL, $resultat);
                 
@@ -155,14 +156,17 @@ class TestsVerificateurPalindrome extends TestCase
         $verificateur = new VerificateurPalindromeBuilder();
         $langueFr = new LangueFrancaise();
         $langueStub = $this->createStub(LangueFrancaise::class);
-        
+        $moment = new Matin ();
         $correction = Langue::getInstance()->setLanguageFile('fr.json')->getLanguage()->Bonjour;
-        $langueStub->method('direBonjour')
+        $langueStub->method('saluer')
              ->willReturn($correction.PHP_EOL);
         foreach(self::INPUTS as $type){
             foreach($type as $key => $data){
                 
-                $resultat = $verificateur->ayantCommeLangue($langueStub)->build()->verifier($data);
+                $resultat = $verificateur
+                                ->ayantCommeLangue($langueStub)
+                                ->AyantPourMomentDeLaJournee($moment)
+                                ->build()->verifier($data);
                 $res_arr = explode(PHP_EOL, $resultat);
                 
                 
@@ -189,7 +193,7 @@ class TestsVerificateurPalindrome extends TestCase
         $langueStub = $this->createStub(LangueFrancaise::class);
         
         $correction = Langue::getInstance()->setLanguageFile('fr.json')->getLanguage()->AuRevoir;
-        $langueStub->method('direAuRevoir')
+        $langueStub->method('acquiter')
              ->willReturn($correction.PHP_EOL);
         foreach(self::INPUTS as $type){
             foreach($type as $key => $data){
