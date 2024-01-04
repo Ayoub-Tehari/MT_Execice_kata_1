@@ -37,7 +37,7 @@ class VerificateurPalindrome {
         
         $resultat = $this->langue->saluer($this->moment) ;
         $resultat .= $this->getBody($input) ;
-        $resultat .= $this->langue->acquiter() ;
+        $resultat .= $this->langue->acquiter($this->moment) ;
 
         return $resultat ;
     }

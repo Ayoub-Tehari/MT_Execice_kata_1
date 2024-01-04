@@ -6,5 +6,10 @@
         "Bonjour_soir":"Good evening",
         "Bonjour_nuit":"Good night"
     },
-    "AuRevoir" : "Good bye"
+    "AuRevoir" : {
+        "AuRevoir_am":"Have a nice day",
+        "AuRevoir_pm":"See you soon",
+        "AuRevoir_soir":"Have a good evening",
+        "AuRevoir_nuit":"See you tomorrow"
+    }
 }

@@ -22,16 +22,37 @@ abstract class LangueTemplate {
                 $salutation = $this->data->Salutation->Bonjour_nuit;
                 break;
             default :
-                $salutation = $this->data->Salutation->Bonjour_am;
-                // throw new \Exception('Le moment de la journée n\'est pas reconnu ! '
-                //                     . PHP_EOL 
-                //                     . "<" . $moment->toString() . ">"
-                //                     . PHP_EOL );
+                // $salutation = $this->data->Salutation->Bonjour_am;
+                throw new \Exception('Le moment de la journée n\'est pas reconnu ! '
+                                    . PHP_EOL 
+                                    . "<" . $moment->toString() . ">"
+                                    . PHP_EOL );
         }
         return $salutation . PHP_EOL;
     }
-    public function acquiter () {
-        return $this->data->AuRevoir . PHP_EOL;
+    public function acquiter ($moment) {
+        
+        switch ($moment->toString()) {
+            case "Matin":
+                $AuRevoir = $this->data->AuRevoir->AuRevoir_am;
+                break;
+            case "ApresMidi":
+                $AuRevoir = $this->data->AuRevoir->AuRevoir_pm;
+                break;
+            case "Soir":
+                $AuRevoir = $this->data->AuRevoir->AuRevoir_soir;
+                break;
+            case "Soiree":
+                $AuRevoir = $this->data->AuRevoir->AuRevoir_nuit;
+                break;
+            default :
+                // $AuRevoir = $this->data->AuRevoir->AuRevoir_am;
+                throw new \Exception('Le moment de la journée n\'est pas reconnu ! '
+                                    . PHP_EOL 
+                                    . "<" . $moment->toString() . ">"
+                                    . PHP_EOL );
+        }
+        return $AuRevoir . PHP_EOL;
     }
     public function feliciter () {
         return $this->data->BienDit . PHP_EOL;
