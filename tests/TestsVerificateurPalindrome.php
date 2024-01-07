@@ -19,8 +19,7 @@ use User\MtExeciceKata1\Tests\Matchers\AyantPourDerniereLigne;
 class TestsVerificateurPalindrome extends TestCase
 {
     //inputs
-
-
+    
     const INPUTS = array("palindromes" => array("radar", "abba"),
                     "autres" => array("test", "palindrome"));
     const MOMENTS_SALUTATIONS = array(
@@ -36,67 +35,6 @@ class TestsVerificateurPalindrome extends TestCase
         "AuRevoir_nuit"
     );
     
-    
-    /*
-        QUAND on saisit une chaine
-        ALORS "Bonjour" plus celle-ci est renvoyée en miroir
-    
-    public function testMiroireDuneChaine () {
-
-        $verificateur = new VerificateurPalindrome();
-        foreach(self::INPUTS as $type){
-            foreach($type as $key => $data){
-            
-                $resultat = $verificateur->renverser($data);
-                $this->assertEquals($resultat, strrev($data));
-            }
-        }
-    }
-
-    /*
-        ETANT DONNE un utilisateur parlant la langue anglaise
-        QUAND on entre un palindrome
-        ALORS il est renvoyé
-        ET le <bienDit> de cette langue est envoyé
-    
-    public function testBienDit_en (){
-
-        $langueInstance = Langue::getInstance();
-        
-        $langueInstance->setLanguageFile('en.json');
-        $expressions = $langueInstance->getLanguage();
-        $verificateur = new VerificateurPalindrome();
-        foreach(self::INPUTS['palindromes'] as $data){
-            $resultat = $verificateur->verifier($data);
-            $res_arr = explode(PHP_EOL, $resultat);
-            $correction = $expressions->BienDit;
-            $this->assertEquals($correction, $res_arr[2]);
-            $this->assertEquals(strrev($data), $res_arr[1]);
-        
-        }
-    }   
-    /*
-        ETANT DONNE un utilisateur parlant la langue française
-        QUAND on entre un palindrome
-        ALORS il est renvoyé
-        ET le <bienDit> de cette langue est envoyé
-    *
-    public function testBienDit_fr (){
-
-        $langueInstance = Langue::getInstance();
-        
-        $langueInstance->setLanguageFile('fr.json');
-        $expressions = $langueInstance->getLanguage();
-        $verificateur = new VerificateurPalindrome();
-        foreach(self::INPUTS['palindromes'] as $data){
-            $resultat = $verificateur->verifier($data);
-            $res_arr = explode(PHP_EOL, $resultat);
-            $correction = $expressions->BienDit;
-            $this->assertEquals($correction, $res_arr[2]);
-            $this->assertEquals(strrev($data), $res_arr[1]);
-        
-        }
-    }   
     /*
         ETANT DONNE un utilisateur parlant une langue
         ALORS l'expression renvoyée est conforme à la langue choisit
