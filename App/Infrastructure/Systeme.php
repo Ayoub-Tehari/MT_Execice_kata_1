@@ -1,0 +1,70 @@
+<?php
+namespace User\MtExeciceKata1\App\Infrastructure;
+
+require_once(realpath("."). DIRECTORY_SEPARATOR ."spl_autoload_register.php");
+
+spl_autoload_register('myAutoloader');
+
+
+
+use User\MtExeciceKata1\App\Domaine\Langues\LangueFrancaise;
+use User\MtExeciceKata1\App\Domaine\Langues\LangueAnglaise;
+use User\MtExeciceKata1\App\Domaine\Temps\Matin;
+use User\MtExeciceKata1\App\Domaine\Temps\ApresMidi;
+use User\MtExeciceKata1\App\Domaine\Temps\Soir;
+use User\MtExeciceKata1\App\Domaine\Temps\Soiree;
+
+
+
+class Systeme implements InputInterface, OutputInterface {
+
+    private $input;
+    private $output;
+    private $langue;
+    private $moment;
+
+    public function __construct (){
+        $this->input = STDIN;
+        $this->output = STDOUT;
+        $this->langue = $this->getLang();
+        $this->moment = $this->getMoment();
+    }
+    public function salutation(){
+        return fprintf($this->output, "%s", $this->langue->saluer($this->moment));
+    }
+    public function acquiter(){
+        return fprintf($this->output, "%s", $this->langue->acquiter($this->moment));
+    }
+    public function print($data){
+        return fprintf($this->output, "%s", $data);
+    }
+    public function get(){
+        return trim(fgets($this->input));
+    }
+    public function getMoment(){
+        $date_sys = date('H');
+        if ($date_sys <6){
+            $moment = new Soiree();
+        }elseif ($date_sys <12){
+            $moment = new Matin();
+        }elseif ($date_sys <16){
+            $moment = new ApresMidi();
+        }elseif ($date_sys <22){
+            $moment = new Soir();
+        }else {
+            $moment = new Soiree();
+        }
+        return $moment;
+    }
+    public function getLang(){
+        
+        $lang = getenv("LANG");
+        $fichierDeLangue = explode('_', $lang)[0];
+        switch ($fichierDeLangue){
+            case "fr": $langue = new LangueFrancaise () ; break;
+            case "en": $langue = new LangueAnglaise () ; break;
+            default : throw new \Exception ("La langue du système n'est pas implementé !");
+        }
+        return $langue;
+    }
+}

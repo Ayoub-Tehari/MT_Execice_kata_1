@@ -2,12 +2,14 @@
     "name": "user/mt_execice_kata_1",
     "autoload": {
         "psr-4": {
-            "User\\MtExeciceKata1\\App\\Domaine\\Langues\\": "app/domaine/langues/",
-            "User\\MtExeciceKata1\\App\\Domaine\\Temps\\": "app/domaine/temps/",
-            "User\\MtExeciceKata1\\App\\Domaine\\": "app/domaine/",
-            "User\\MtExeciceKata1\\Tests\\": "tests/",
-            "User\\MtExeciceKata1\\App\\Tests\\Utilities\\": "tests/utilities/",
-            "User\\MtExeciceKata1\\Tests\\Matchers\\": "tests/matchers/"
+            "User\\MtExeciceKata1\\App\\Domaine\\Langues\\": "App/Domaine/Langues/",
+            "User\\MtExeciceKata1\\App\\Domaine\\Temps\\": "App/Domaine/Temps/",
+            "User\\MtExeciceKata1\\App\\Domaine\\": "App/Domaine/",
+            "User\\MtExeciceKata1\\App\\Infrastructure\\": "App/Infrastructure/",
+            "User\\MtExeciceKata1\\App\\Presentation\\": "App/Presentation/",
+            "User\\MtExeciceKata1\\Tests\\": "Tests/",
+            "User\\MtExeciceKata1\\Tests\\Utilities\\": "Tests/Utilities/",
+            "User\\MtExeciceKata1\\Tests\\Matchers\\": "Tests/Matchers/"
         }
     },
     "authors": [
