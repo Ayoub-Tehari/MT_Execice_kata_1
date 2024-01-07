@@ -21,19 +21,17 @@ class Systeme implements InputInterface, OutputInterface {
     private $input;
     private $output;
     private $langue;
-    private $moment;
 
     public function __construct (){
         $this->input = STDIN;
         $this->output = STDOUT;
         $this->langue = $this->getLang();
-        $this->moment = $this->getMoment();
     }
     public function salutation(){
-        return fprintf($this->output, "%s", $this->langue->saluer($this->moment));
+        return fprintf($this->output, "%s", $this->langue->saluer($this->getMoment()));
     }
     public function acquiter(){
-        return fprintf($this->output, "%s", $this->langue->acquiter($this->moment));
+        return fprintf($this->output, "%s", $this->langue->acquiter($this->getMoment()));
     }
     public function print($data){
         return fprintf($this->output, "%s", $data);
